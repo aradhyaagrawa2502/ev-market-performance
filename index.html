@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electric Vehicle Market Performance & Insights | Interactive Portal</title>
+  <meta name="description" content="Interactive Tableau dashboard and story analytics tracking global Electric Vehicle market trends, range benchmarks, battery capacity, and adoption metrics.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Application CSS -->
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#home" class="nav-brand">
+        <div class="brand-icon"><i class="fas fa-bolt"></i></div>
+        <div class="brand-title">EV <span>Insights</span></div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#showcase" onclick="switchToTab('tab-dashboard')">Dashboard</a></li>
+          <li><a href="#showcase" onclick="switchToTab('tab-story')">Story</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#showcase" onclick="switchToTab('tab-dashboard')" class="btn btn-primary btn-sm">
+          <i class="fas fa-chart-line"></i> Explore Dashboard
+        </a>
+        <a href="#showcase" onclick="switchToTab('tab-story')" class="btn btn-outline btn-sm">
+          <i class="fas fa-book-open"></i> Explore Story
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="home">
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-badge">
+          <i class="fas fa-bolt"></i> Live EV Market Intelligence 2026
+        </div>
+        
+        <h1 class="hero-title">
+          Transform Your Workflow With <br>
+          <span class="gradient-text">Seamless EV Insights</span><span class="hero-cursor">|</span>
+        </h1>
+        
+        <p class="hero-description">
+          Explore live EV market intelligence, adoption trends, vehicle battery specs, and the story behind the growth of electric mobility through a polished dashboard and narrative experience.
+        </p>
+        
+        <div class="hero-ctas">
+          <a href="#showcase" class="btn btn-primary" onclick="switchToTab('tab-dashboard')">
+            <i class="fas fa-chart-line"></i> Explore the Dashboard &rarr;
+          </a>
+          <a href="#showcase" class="btn btn-outline" onclick="switchToTab('tab-story')">
+            <i class="fas fa-book-open"></i> Explore Story
+          </a>
+        </div>
+
+        <!-- STATS STRIP -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon"><i class="fas fa-car-battery"></i></div>
+              <span class="stat-badge">+18% YoY</span>
+            </div>
+            <div class="stat-value" data-target="1250" data-suffix="+">1,250+</div>
+            <div class="stat-label">EV Models Tracked</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon teal"><i class="fas fa-arrow-trend-up"></i></div>
+              <span class="stat-badge">Surge</span>
+            </div>
+            <div class="stat-value" data-target="84" data-prefix="+" data-suffix="%">+84%</div>
+            <div class="stat-label">Market Adoption Growth</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon cyan"><i class="fas fa-gauge-high"></i></div>
+              <span class="stat-badge">Avg Benchmark</span>
+            </div>
+            <div class="stat-value" data-target="324" data-suffix=" mi">324 mi</div>
+            <div class="stat-label">Average Driving Range</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon"><i class="fas fa-charging-station"></i></div>
+              <span class="stat-badge">Energy Density</span>
+            </div>
+            <div class="stat-value" data-target="78" data-suffix=".4 kWh">78.4 kWh</div>
+            <div class="stat-label">Average Battery Pack</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE TABLEAU SHOWCASE SECTION -->
+    <section id="showcase" class="container" style="scroll-margin-top: 100px;">
+      <div class="viz-showcase">
+        <!-- Toolbar -->
+        <div class="viz-toolbar">
+          <div class="viz-tabs">
+            <button class="tab-btn active" data-target="tab-dashboard" id="btn-tab-dashboard">
+              <i class="fas fa-chart-pie"></i> Interactive Dashboard
+            </button>
+            <button class="tab-btn" data-target="tab-story" id="btn-tab-story">
+              <i class="fas fa-book-bookmark"></i> Market Narrative Story
+            </button>
+          </div>
+
+          <div class="viz-controls">
+            <button class="control-btn" id="fsBtn" title="Toggle Fullscreen">
+              <i class="fas fa-expand"></i> Fullscreen
+            </button>
+            <button class="control-btn" id="refreshBtn" title="Reload Visualizations">
+              <i class="fas fa-arrows-rotate"></i> Refresh Viz
+            </button>
+            <button class="control-btn" id="shareBtn" title="Share Visualisation Link">
+              <i class="fas fa-share-nodes"></i> Share
+            </button>
+          </div>
+        </div>
+
+        <!-- Visualisation Panes Container -->
+        <div class="tableau-outer">
+          <!-- DASHBOARD PANE -->
+          <div class="viz-pane active" id="tab-dashboard">
+            <div class='tableauPlaceholder' id='viz1793113342240' style='position: relative'>
+              <noscript>
+                <a href='#'>
+                  <img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;EV&#47;EVMARKET-DASHBOARD&#47;Dashboard1&#47;1_rss.png' style='border: none' />
+                </a>
+              </noscript>
+              <object class='tableauViz' style='display:none;'>
+                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                <param name='embed_code_version' value='3' />
+                <param name='site_root' value='' />
+                <param name='name' value='EVMARKET-DASHBOARD&#47;Dashboard1' />
+                <param name='tabs' value='no' />
+                <param name='toolbar' value='yes' />
+                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;EV&#47;EVMARKET-DASHBOARD&#47;Dashboard1&#47;1.png' />
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' />
+                <param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+                <param name='filter' value='publish=yes' />
+              </object>
+            </div>
+          </div>
+
+          <!-- STORY PANE -->
+          <div class="viz-pane" id="tab-story">
+            <div class='tableauPlaceholder' id='viz1793112858055' style='position: relative'>
+              <noscript>
+                <a href='#'>
+                  <img alt='Story 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;EV&#47;EVMARKET-STORY&#47;Story1&#47;1_rss.png' style='border: none' />
+                </a>
+              </noscript>
+              <object class='tableauViz' style='display:none;'>
+                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                <param name='embed_code_version' value='3' />
+                <param name='site_root' value='' />
+                <param name='name' value='EVMARKET-STORY&#47;Story1' />
+                <param name='tabs' value='no' />
+                <param name='toolbar' value='yes' />
+                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;EV&#47;EVMARKET-STORY&#47;Story1&#47;1.png' />
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' />
+                <param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+                <param name='filter' value='publish=yes' />
+              </object>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE FEATURES SECTION -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Key Intelligence Modules</span>
+          <h2 class="section-title">Engineered For Analytical Depth</h2>
+          <p class="section-subtitle">
+            Bridging high-volume automotive data with real-time interactive intelligence, designed for automotive executives, researchers, and EV buyers.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-battery-three-quarters"></i></div>
+            <h3>Battery & Range Benchmarks</h3>
+            <p>Compare real-world vs EPA rated range, pack kilowatt-hours, charging curves, and degradation estimations across modern EV lithium chemistries.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-industry"></i></div>
+            <h3>OEM & Brand Segmentation</h3>
+            <p>Track market share dominance across Tesla, BYD, Hyundai-Kia, Volkswagen Group, Rivian, and emerging EV pure-plays.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-tags"></i></div>
+            <h3>Pricing & Total Cost of Ownership</h3>
+            <p>Analyze MSRP distributions, subsidy qualification thresholds, and parity timelines versus internal combustion engine (ICE) benchmarks.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-map-location-dot"></i></div>
+            <h3>Geographical Adoption Heatmaps</h3>
+            <p>Inspect state-by-state and national electric vehicle registration density correlated with charging infrastructure availability.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-leaf"></i></div>
+            <h3>Carbon Abatement & ESG Metrics</h3>
+            <p>Quantify life-cycle greenhouse gas savings per 10,000 miles driven with customizable regional electrical grid emission factors.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-bolt-lightning"></i></div>
+            <h3>Fast Charging Infrastructure</h3>
+            <p>Evaluate Level 2 and DC Fast Charging accessibility, peak kW charging acceptance rates, and network compatibility (NACS & CCS1).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES & CAPABILITIES SECTION -->
+    <section id="services" class="section" style="background: rgba(13, 18, 29, 0.4);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Strategic Applications</span>
+          <h2 class="section-title">Solutions Built For Modern Mobility</h2>
+          <p class="section-subtitle">
+            Scalable insights customized for automotive manufacturers, fleet operators, and institutional clean-energy investors.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <span class="service-badge">Commercial Fleets</span>
+            <h3>Fleet Electrification Transition</h3>
+            <p>Detailed roadmaps identifying vehicle duty cycles, route ranges, depot charging requirements, and payback timelines for commercial fleets.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-badge">Policy & Grants</span>
+            <h3>Incentive & Regulatory Tracking</h3>
+            <p>Real-time synthesis of regional emissions standards, Clean Vehicle Credits, local rebate eligibility, and infrastructure grant distribution.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-badge">Automotive OEM</span>
+            <h3>Competitive Benchmarking</h3>
+            <p>Deep-dive side-by-side spec sheets evaluating efficiency (mi/kWh), curb weight, drivetrain architecture, and standard driver-assist capabilities.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-badge">Analytics BI</span>
+            <h3>Custom BI Integration</h3>
+            <p>Seamlessly pipe Tableau Public and server visualizations directly into enterprise Flask, Django, or React web environments with authenticated APIs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECT SHOWCASE / ABOUT SECTION -->
+    <section id="about" class="container">
+      <div class="project-card">
+        <div class="project-meta">
+          <div class="author-pill">
+            <span class="author-avatar">AA</span>
+            <span>Developer: <strong>Aradhya Agrawal</strong></span>
+          </div>
+          <div class="author-pill">
+            <i class="fas fa-graduation-cap" style="color: var(--accent-primary);"></i>
+            <span>Project: <strong>Electric Vehicle Market Performance & Insights</strong></span>
+          </div>
+          <div class="author-pill">
+            <i class="fas fa-circle-check" style="color: var(--accent-teal);"></i>
+            <span>Status: <strong>Completed & Deployed</strong></span>
+          </div>
+        </div>
+
+        <h2 style="font-size: 1.85rem; margin-bottom: 1rem;">Project Architecture & Technical Execution</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+          This project demonstrates an enterprise-grade integration of <strong>Tableau Dashboards and Stories</strong> within a lightweight <strong>Python Flask</strong> web application. By uniting Tableau's robust data visualization engine with Flask's modular backend, users enjoy direct browser access to live EV intelligence without requiring proprietary desktop analytics software.
+        </p>
+
+        <div class="tech-badges">
+          <span class="tech-badge"><i class="fab fa-python"></i> Python 3.13</span>
+          <span class="tech-badge"><i class="fas fa-flask"></i> Flask 3.1 Web Server</span>
+          <span class="tech-badge"><i class="fas fa-chart-column"></i> Tableau Public API viz_v1.js</span>
+          <span class="tech-badge"><i class="fab fa-html5"></i> Semantic HTML5</span>
+          <span class="tech-badge"><i class="fab fa-css3-alt"></i> Modern CSS Grid & Glassmorphism</span>
+          <span class="tech-badge"><i class="fab fa-js"></i> Vanilla JavaScript</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom: 0.5rem;">
+            <div class="brand-icon"><i class="fas fa-bolt"></i></div>
+            <div class="brand-title">EV <span>Insights</span></div>
+          </div>
+          <p>
+            An advanced intelligence web portal visualizing global Electric Vehicle market penetration, specifications, range efficiency, and adoption dynamics.
+          </p>
+          <div style="margin-top: 1.25rem;" class="author-pill">
+            <span class="author-avatar">AA</span>
+            <span>Project by <strong>Aradhya Agrawal</strong></span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#home"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 6px;"></i> Home</a></li>
+            <li><a href="#showcase" onclick="switchToTab('tab-dashboard')"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 6px;"></i> Live Dashboard</a></li>
+            <li><a href="#showcase" onclick="switchToTab('tab-story')"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 6px;"></i> Interactive Story</a></li>
+            <li><a href="#about"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 6px;"></i> Project Details</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Visualizations</h4>
+          <ul class="footer-links">
+            <li><a href="https://public.tableau.com/views/EVMARKET-DASHBOARD/Dashboard1" target="_blank"><i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-right: 6px;"></i> Tableau Dashboard</a></li>
+            <li><a href="https://public.tableau.com/views/EVMARKET-STORY/Story1" target="_blank"><i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-right: 6px;"></i> Tableau Story</a></li>
+            <li><a href="https://public.tableau.com" target="_blank"><i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-right: 6px;"></i> Tableau Public Host</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Architecture & Stack</h4>
+          <div class="tech-badges" style="margin-top: 0.5rem;">
+            <span class="tech-badge"><i class="fab fa-python"></i> Python 3</span>
+            <span class="tech-badge"><i class="fas fa-flask"></i> Flask</span>
+            <span class="tech-badge"><i class="fas fa-chart-pie"></i> Tableau Public</span>
+            <span class="tech-badge"><i class="fab fa-html5"></i> HTML5 Semantic</span>
+            <span class="tech-badge"><i class="fab fa-css3-alt"></i> Modern CSS</span>
+            <span class="tech-badge"><i class="fab fa-js"></i> ES6+ JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Electric Vehicle Market Performance & Insights. All rights reserved.</div>
+        <div>Built for SkillWallet Data Analytics Capstone Showcase</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="static/js/main.js"></script>
+  <script type='text/javascript'>
+    function initTableauEmbed(containerId, isHeightResponsive) {
+      var divElement = document.getElementById(containerId);
+      if (!divElement) return;
+      var vizElement = divElement.getElementsByTagName('object')[0];
+      if (!vizElement) return;
+
+      vizElement.style.width = '100%';
+      if (isHeightResponsive) {
+        vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+      } else {
+        vizElement.style.height = Math.max(650, window.innerHeight * 0.75) + 'px';
+      }
+
+      var scriptElement = document.createElement('script');
+      scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+      vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    }
+
+    function switchToTab(tabId) {
+      const btn = document.getElementById('btn-' + tabId);
+      if (btn) btn.click();
+    }
+
+    window.addEventListener('load', function() {
+      initTableauEmbed('viz1793113342240', true); // Dashboard
+      initTableauEmbed('viz1793112858055', true); // Story
+    });
+  </script>
+</body>
+</html>
