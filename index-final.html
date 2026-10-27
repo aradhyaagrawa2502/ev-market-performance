@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electric Vehicle Market Performance & Insights | Interactive Portal</title>
+  <meta name="description" content="Interactive Tableau dashboard and story analytics tracking global Electric Vehicle market trends, range benchmarks, battery capacity, and adoption metrics.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ===================================================================
+       ALL-IN-ONE EMBEDDED STYLESHEET
+       Theme: Deep Obsidian with Warm Amber & Electric Teal Accents
+       =================================================================== */
+    :root {
+      --bg-primary: #07090e;
+      --bg-secondary: #0d121d;
+      --bg-card: rgba(18, 24, 38, 0.75);
+      --bg-card-hover: rgba(26, 34, 53, 0.88);
+      --bg-glass: rgba(13, 18, 29, 0.75);
+
+      --accent-primary: #f59e0b; /* Warm Amber / Gold from screenshot */
+      --accent-secondary: #ff7a00;
+      --accent-teal: #10b981;
+      --accent-cyan: #06b6d4;
+      --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #ff6b00 100%);
+      --accent-gradient-teal: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(245, 158, 11, 0.35);
+      --border-highlight: rgba(255, 255, 255, 0.16);
+
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 25px rgba(245, 158, 11, 0.18);
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --transition-fast: 0.2s ease;
+      --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-family: var(--font-sans);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: 
+        radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.07) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 45%),
+        var(--bg-primary);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text-primary);
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .gradient-text {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1320px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    /* NAVIGATION BAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all var(--transition-smooth);
+    }
+
+    .navbar.scrolled {
+      background: rgba(7, 9, 14, 0.96);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0b0f17;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+    }
+
+    .brand-title {
+      color: #fff;
+    }
+    .brand-title span {
+      color: var(--accent-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #ffffff;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent-gradient);
+      border-radius: 2px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      text-decoration: none;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #0b0f17;
+      font-weight: 700;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.45);
+      color: #000;
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-highlight);
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--accent-primary);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .btn-sm {
+      padding: 0.45rem 1rem;
+      font-size: 0.82rem;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      padding: 4.8rem 0 3.5rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: var(--radius-full);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: var(--accent-primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+      animation: pulse-glow 3s infinite alternate;
+    }
+
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.15); }
+      100% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.35); }
+    }
+
+    .hero-title {
+      font-size: clamp(2.3rem, 5.2vw, 4.1rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      max-width: 950px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .hero-cursor {
+      display: inline-block;
+      color: var(--accent-primary);
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .hero-description {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 740px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+
+    /* KPI STATS GRID */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 4rem;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      text-align: left;
+      transition: all var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      transition: background var(--transition-fast);
+    }
+
+    .stat-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-highlight);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .stat-card:hover::before {
+      background: var(--accent-gradient);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--accent-primary);
+    }
+
+    .stat-icon.teal {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-teal);
+    }
+
+    .stat-icon.cyan {
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--accent-cyan);
+    }
+
+    .stat-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+
+    /* INTERACTIVE TABLEAU SHOWCASE WRAPPER */
+    .viz-showcase {
+      background: var(--bg-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg), 0 0 60px rgba(0, 0, 0, 0.45);
+      padding: 1.5rem;
+      margin-bottom: 5.5rem;
+      position: relative;
+    }
+
+    .viz-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .viz-tabs {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 0.35rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all var(--transition-fast);
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: var(--accent-gradient);
+      color: #0b0f17;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.35);
+    }
+
+    .viz-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .control-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all var(--transition-fast);
+    }
+
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: var(--border-highlight);
+    }
+
+    /* Tableau Outer Container */
+    .tableau-outer {
+      background: #000;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+      min-height: 650px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .viz-pane {
+      display: none;
+      width: 100%;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .viz-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tableauPlaceholder {
+      width: 100% !important;
+      margin: 0 auto;
+    }
+
+    /* Fullscreen Mode */
+    .viz-showcase.is-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99999;
+      border-radius: 0;
+      margin: 0;
+      padding: 1rem;
+      background: var(--bg-primary);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .viz-showcase.is-fullscreen .tableau-outer {
+      flex: 1;
+      height: calc(100vh - 100px);
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 5rem 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 3.5rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+    }
+
+    /* FEATURES GRID */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 2.25rem 2rem;
+      transition: all var(--transition-smooth);
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-highlight);
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      transition: all var(--transition-smooth);
+    }
+
+    .feature-card:hover .feature-icon-box {
+      background: var(--accent-gradient);
+      color: #000;
+      transform: scale(1.08);
+    }
+
+    .feature-card h3 {
+      font-size: 1.28rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    /* SERVICES GRID */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: linear-gradient(180deg, rgba(22, 29, 46, 0.7) 0%, rgba(13, 18, 29, 0.9) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      transition: all var(--transition-smooth);
+    }
+
+    .service-card:hover {
+      border-color: var(--accent-teal);
+      transform: translateY(-4px);
+    }
+
+    .service-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-teal);
+      margin-bottom: 1.25rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* PROJECT INFO CARD */
+    .project-card {
+      background: linear-gradient(135deg, rgba(24, 32, 51, 0.8) 0%, rgba(14, 19, 31, 0.9) 100%);
+      border: 1px solid var(--border-highlight);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      margin: 3.5rem 0;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .author-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+    }
+
+    .author-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #000;
+    }
+
+    .tech-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .tech-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    .tech-badge i {
+      color: var(--accent-primary);
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: auto;
+      background: #04060a;
+      border-top: 1px solid var(--border-subtle);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 3rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .footer-brand p {
+      margin-top: 1rem;
+      max-width: 340px;
+      font-size: 0.92rem;
+    }
+
+    .footer-col h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-primary);
+      padding-left: 4px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* TOAST NOTIFICATION */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(14, 20, 32, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--accent-primary);
+      color: #fff;
+      padding: 0.85rem 1.4rem;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 10000;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 992px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 76px;
+        left: 0;
+        width: 100%;
+        background: rgba(7, 9, 14, 0.97);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.25rem;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-section {
+        padding: 3rem 0 2rem;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-actions .btn-primary {
+        display: none;
+      }
+
+      .tableau-outer {
+        min-height: 480px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#home" class="nav-brand">
+        <div class="brand-icon"><i class="fas fa-bolt"></i></div>
+        <div class="brand-title">EV <span>Insights</span></div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#showcase" onclick="switchToTab('tab-dashboard')">Dashboard</a></li>
+          <li><a href="#showcase" onclick="switchToTab('tab-story')">Story</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#showcase" onclick="switchToTab('tab-dashboard')" class="btn btn-primary btn-sm">
+          <i class="fas fa-chart-line"></i> Explore Dashboard
+        </a>
+        <a href="#showcase" onclick="switchToTab('tab-story')" class="btn btn-outline btn-sm">
+          <i class="fas fa-book-open"></i> Explore Story
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="home">
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-badge">
+          <i class="fas fa-bolt"></i> Live EV Market Intelligence 2026
+        </div>
+        
+        <h1 class="hero-title">
+          Transform Your Workflow With <br>
+          <span class="gradient-text">Seamless EV Insights</span><span class="hero-cursor">|</span>
+        </h1>
+        
+        <p class="hero-description">
+          Explore live EV market intelligence, adoption trends, vehicle battery specs, and the story behind the growth of electric mobility through a polished dashboard and narrative experience.
+        </p>
+        
+        <div class="hero-ctas">
+          <a href="#showcase" class="btn btn-primary" onclick="switchToTab('tab-dashboard')">
+            <i class="fas fa-chart-line"></i> Explore the Dashboard &rarr;
+          </a>
+          <a href="#showcase" class="btn btn-outline" onclick="switchToTab('tab-story')">
+            <i class="fas fa-book-open"></i> Explore Story
+          </a>
+        </div>
+
+        <!-- STATS STRIP -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon"><i class="fas fa-car-battery"></i></div>
+              <span class="stat-badge">+18% YoY</span>
+            </div>
+            <div class="stat-value" data-target="1250" data-suffix="+">1,250+</div>
+            <div class="stat-label">EV Models Tracked</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon teal"><i class="fas fa-arrow-trend-up"></i></div>
+              <span class="stat-badge">Surge</span>
+            </div>
+            <div class="stat-value" data-target="84" data-prefix="+" data-suffix="%">+84%</div>
+            <div class="stat-label">Market Adoption Growth</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon cyan"><i class="fas fa-gauge-high"></i></div>
+              <span class="stat-badge">Avg Benchmark</span>
+            </div>
+            <div class="stat-value" data-target="324" data-suffix=" mi">324 mi</div>
+            <div class="stat-label">Average Driving Range</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon"><i class="fas fa-charging-station"></i></div>
+              <span class="stat-badge">Energy Density</span>
+            </div>
+            <div class="stat-value" data-target="78" data-suffix=".4 kWh">78.4 kWh</div>
+            <div class="stat-label">Average Battery Pack</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE TABLEAU SHOWCASE SECTION -->
+    <section id="showcase" class="container" style="scroll-margin-top: 100px;">
+      <div class="viz-showcase">
+        <!-- Toolbar -->
+        <div class="viz-toolbar">
+          <div class="viz-tabs">
+            <button class="tab-btn active" data-target="tab-dashboard" id="btn-tab-dashboard">
+              <i class="fas fa-chart-pie"></i> Interactive Dashboard
+            </button>
+            <button class="tab-btn" data-target="tab-story" id="btn-tab-story">
+              <i class="fas fa-book-bookmark"></i> Market Narrative Story
+            </button>
+          </div>
+
+          <div class="viz-controls">
+            <button class="control-btn" id="fsBtn" title="Toggle Fullscreen">
+              <i class="fas fa-expand"></i> Fullscreen
+            </button>
+            <button class="control-btn" id="refreshBtn" title="Reload Visualizations">
+              <i class="fas fa-arrows-rotate"></i> Refresh Viz
+            </button>
+            <button class="control-btn" id="shareBtn" title="Share Link">
+              <i class="fas fa-share-nodes"></i> Share
+            </button>
+          </div>
+        </div>
+
+        <!-- Visualisation Panes Container -->
+        <div class="tableau-outer">
+          <!-- DASHBOARD PANE -->
+          <div class="viz-pane active" id="tab-dashboard">
+            <div class='tableauPlaceholder' id='viz1793113342240' style='position: relative'>
+              <noscript>
+                <a href='#'>
+                  <img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;EV&#47;EVMARKET-DASHBOARD&#47;Dashboard1&#47;1_rss.png' style='border: none' />
+                </a>
+              </noscript>
+              <object class='tableauViz' style='display:none;'>
+                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                <param name='embed_code_version' value='3' />
+                <param name='site_root' value='' />
+                <param name='name' value='EVMARKET-DASHBOARD&#47;Dashboard1' />
+                <param name='tabs' value='no' />
+                <param name='toolbar' value='yes' />
+                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;EV&#47;EVMARKET-DASHBOARD&#47;Dashboard1&#47;1.png' />
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' />
+                <param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+                <param name='filter' value='publish=yes' />
+              </object>
+            </div>
+          </div>
+
+          <!-- STORY PANE -->
+          <div class="viz-pane" id="tab-story">
+            <div class='tableauPlaceholder' id='viz1793112858055' style='position: relative'>
+              <noscript>
+                <a href='#'>
+                  <img alt='Story 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;EV&#47;EVMARKET-STORY&#47;Story1&#47;1_rss.png' style='border: none' />
+                </a>
+              </noscript>
+              <object class='tableauViz' style='display:none;'>
+                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                <param name='embed_code_version' value='3' />
+                <param name='site_root' value='' />
+                <param name='name' value='EVMARKET-STORY&#47;Story1' />
+                <param name='tabs' value='no' />
+                <param name='toolbar' value='yes' />
+                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;EV&#47;EVMARKET-STORY&#47;Story1&#47;1.png' />
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' />
+                <param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+                <param name='filter' value='publish=yes' />
+              </object>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE FEATURES SECTION -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Key Intelligence Modules</span>
+          <h2 class="section-title">Engineered For Analytical Depth</h2>
+          <p class="section-subtitle">
+            Bridging high-volume automotive data with real-time interactive intelligence, designed for automotive executives, researchers, and EV buyers.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-battery-three-quarters"></i></div>
+            <h3>Battery & Range Benchmarks</h3>
+            <p>Compare real-world vs EPA rated range, pack kilowatt-hours, charging curves, and degradation estimations across modern EV lithium chemistries.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-industry"></i></div>
+            <h3>OEM & Brand Segmentation</h3>
+            <p>Track market share dominance across Tesla, BYD, Hyundai-Kia, Volkswagen Group, Rivian, and emerging EV pure-plays.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-tags"></i></div>
+            <h3>Pricing & Total Cost of Ownership</h3>
+            <p>Analyze MSRP distributions, subsidy qualification thresholds, and parity timelines versus internal combustion engine (ICE) benchmarks.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-map-location-dot"></i></div>
+            <h3>Geographical Adoption Heatmaps</h3>
+            <p>Inspect state-by-state and national electric vehicle registration density correlated with charging infrastructure availability.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-leaf"></i></div>
+            <h3>Carbon Abatement & ESG Metrics</h3>
+            <p>Quantify life-cycle greenhouse gas savings per 10,000 miles driven with customizable regional electrical grid emission factors.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box"><i class="fas fa-bolt-lightning"></i></div>
+            <h3>Fast Charging Infrastructure</h3>
+            <p>Evaluate Level 2 and DC Fast Charging accessibility, peak kW charging acceptance rates, and network compatibility (NACS & CCS1).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES & CAPABILITIES SECTION -->
+    <section id="services" class="section" style="background: rgba(13, 18, 29, 0.4);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Strategic Applications</span>
+          <h2 class="section-title">Solutions Built For Modern Mobility</h2>
+          <p class="section-subtitle">
+            Scalable insights customized for automotive manufacturers, fleet operators, and institutional clean-energy investors.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <span class="service-badge">Commercial Fleets</span>
+            <h3>Fleet Electrification Transition</h3>
+            <p>Detailed roadmaps identifying vehicle duty cycles, route ranges, depot charging requirements, and payback timelines for commercial fleets.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-badge">Policy & Grants</span>
+            <h3>Incentive & Regulatory Tracking</h3>
+            <p>Real-time synthesis of regional emissions standards, Clean Vehicle Credits, local rebate eligibility, and infrastructure grant distribution.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-badge">Automotive OEM</span>
+            <h3>Competitive Benchmarking</h3>
+            <p>Deep-dive side-by-side spec sheets evaluating efficiency (mi/kWh), curb weight, drivetrain architecture, and standard driver-assist capabilities.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-badge">Analytics BI</span>
+            <h3>Custom BI Integration</h3>
+            <p>Seamlessly pipe Tableau Public and server visualizations directly into enterprise Flask, Django, or React web environments with authenticated APIs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECT SHOWCASE / ABOUT SECTION -->
+    <section id="about" class="container">
+      <div class="project-card">
+        <div class="project-meta">
+          <div class="author-pill">
+            <span class="author-avatar">AA</span>
+            <span>Developer: <strong>Aradhya Agrawal</strong></span>
+          </div>
+          <div class="author-pill">
+            <i class="fas fa-graduation-cap" style="color: var(--accent-primary);"></i>
+            <span>Project: <strong>Electric Vehicle Market Performance & Insights</strong></span>
+          </div>
+          <div class="author-pill">
+            <i class="fas fa-circle-check" style="color: var(--accent-teal);"></i>
+            <span>Status: <strong>Completed & Ready for Submission</strong></span>
+          </div>
+        </div>
+
+        <h2 style="font-size: 1.85rem; margin-bottom: 1rem;">Project Architecture & Technical Execution</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+          This section demonstrates how to embed <strong>Tableau Dashboards and Stories</strong> within a lightweight web portal to provide interactive, real-time access to electric mobility insights. By integrating Tableau's visual computing model with modern responsive front-end styling, users can explore multi-dimensional charts directly in their browsers without needing proprietary desktop software.
+        </p>
+
+        <div class="tech-badges">
+          <span class="tech-badge"><i class="fab fa-python"></i> Python 3</span>
+          <span class="tech-badge"><i class="fas fa-flask"></i> Flask Framework</span>
+          <span class="tech-badge"><i class="fas fa-chart-column"></i> Tableau Public API viz_v1.js</span>
+          <span class="tech-badge"><i class="fab fa-html5"></i> Semantic HTML5</span>
+          <span class="tech-badge"><i class="fab fa-css3-alt"></i> Modern CSS Grid & Glassmorphism</span>
+          <span class="tech-badge"><i class="fab fa-js"></i> Vanilla JavaScript</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom: 0.5rem;">
+            <div class="brand-icon"><i class="fas fa-bolt"></i></div>
+            <div class="brand-title">EV <span>Insights</span></div>
+          </div>
+          <p>
+            An advanced intelligence web portal visualizing global Electric Vehicle market penetration, specifications, range efficiency, and adoption dynamics.
+          </p>
+          <div style="margin-top: 1.25rem;" class="author-pill">
+            <span class="author-avatar">AA</span>
+            <span>Project by <strong>Aradhya Agrawal</strong></span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#home"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 6px;"></i> Home</a></li>
+            <li><a href="#showcase" onclick="switchToTab('tab-dashboard')"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 6px;"></i> Live Dashboard</a></li>
+            <li><a href="#showcase" onclick="switchToTab('tab-story')"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 6px;"></i> Interactive Story</a></li>
+            <li><a href="#about"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 6px;"></i> Project Details</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Visualizations</h4>
+          <ul class="footer-links">
+            <li><a href="https://public.tableau.com/views/EVMARKET-DASHBOARD/Dashboard1" target="_blank"><i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-right: 6px;"></i> Tableau Dashboard</a></li>
+            <li><a href="https://public.tableau.com/views/EVMARKET-STORY/Story1" target="_blank"><i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-right: 6px;"></i> Tableau Story</a></li>
+            <li><a href="https://public.tableau.com" target="_blank"><i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-right: 6px;"></i> Tableau Public Host</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Architecture & Stack</h4>
+          <div class="tech-badges" style="margin-top: 0.5rem;">
+            <span class="tech-badge"><i class="fab fa-python"></i> Python 3</span>
+            <span class="tech-badge"><i class="fas fa-flask"></i> Flask</span>
+            <span class="tech-badge"><i class="fas fa-chart-pie"></i> Tableau Public</span>
+            <span class="tech-badge"><i class="fab fa-html5"></i> Semantic HTML5</span>
+            <span class="tech-badge"><i class="fab fa-css3-alt"></i> Modern CSS</span>
+            <span class="tech-badge"><i class="fab fa-js"></i> ES6+ JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Electric Vehicle Market Performance & Insights. All rights reserved.</div>
+        <div>Built for SkillWallet Data Analytics Capstone Showcase</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- EMBEDDED JAVASCRIPT LOGIC -->
+  <script type='text/javascript'>
+    document.addEventListener('DOMContentLoaded', () => {
+      initNavbar();
+      initTabs();
+      initControls();
+      initCounters();
+    });
+
+    /**
+     * Navbar scroll behavior & mobile menu toggle
+     */
+    function initNavbar() {
+      const navbar = document.querySelector('.navbar');
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          navbar?.classList.add('scrolled');
+        } else {
+          navbar?.classList.remove('scrolled');
+        }
+      });
+
+      if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+          navLinks.classList.toggle('active');
+          const icon = menuToggle.querySelector('i');
+          if (icon) {
+            icon.className = navLinks.classList.contains('active') ? 'fas fa-xmark' : 'fas fa-bars';
+          }
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            if (icon) icon.className = 'fas fa-bars';
+          });
+        });
+      }
+    }
+
+    /**
+     * Tab Switcher between Tableau Dashboard & Story
+     */
+    function initTabs() {
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const panes = document.querySelectorAll('.viz-pane');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          if (!targetId) return;
+
+          tabBtns.forEach(b => b.classList.remove('active'));
+          panes.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const targetPane = document.getElementById(targetId);
+          if (targetPane) {
+            targetPane.classList.add('active');
+            setTimeout(() => {
+              window.dispatchEvent(new Event('resize'));
+            }, 50);
+          }
+        });
+      });
+    }
+
+    function switchToTab(tabId) {
+      const btn = document.getElementById('btn-' + tabId);
+      if (btn) btn.click();
+    }
+
+    /**
+     * Fullscreen, Refresh & Share Controls
+     */
+    function initControls() {
+      const showcase = document.querySelector('.viz-showcase');
+      const fsBtn = document.getElementById('fsBtn');
+      const refreshBtn = document.getElementById('refreshBtn');
+      const shareBtn = document.getElementById('shareBtn');
+
+      if (fsBtn && showcase) {
+        fsBtn.addEventListener('click', () => {
+          showcase.classList.toggle('is-fullscreen');
+          const isFs = showcase.classList.contains('is-fullscreen');
+          fsBtn.innerHTML = isFs 
+            ? '<i class="fas fa-compress"></i> Exit Fullscreen' 
+            : '<i class="fas fa-expand"></i> Fullscreen';
+          window.dispatchEvent(new Event('resize'));
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && showcase.classList.contains('is-fullscreen')) {
+            showcase.classList.remove('is-fullscreen');
+            fsBtn.innerHTML = '<i class="fas fa-expand"></i> Fullscreen';
+            window.dispatchEvent(new Event('resize'));
+          }
+        });
+      }
+
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+          showToast('Reloading Tableau visualization...');
+          window.dispatchEvent(new Event('resize'));
+        });
+      }
+
+      if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            showToast('Link copied to clipboard!');
+          }).catch(() => {
+            showToast('URL: ' + window.location.href);
+          });
+        });
+      }
+    }
+
+    /**
+     * Toast Notifications
+     */
+    function showToast(message) {
+      let toast = document.querySelector('.toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<i class="fas fa-circle-check" style="color: var(--accent-primary);"></i> <span>${message}</span>`;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    /**
+     * Animated Number Counters
+     */
+    function initCounters() {
+      const counters = document.querySelectorAll('.stat-value[data-target]');
+      if (!counters.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const counter = entry.target;
+            const target = +counter.getAttribute('data-target');
+            const prefix = counter.getAttribute('data-prefix') || '';
+            const suffix = counter.getAttribute('data-suffix') || '';
+            const duration = 1200;
+            const step = target / (duration / 25);
+            let current = 0;
+
+            const updateCounter = () => {
+              current += step;
+              if (current < target) {
+                counter.innerText = prefix + Math.floor(current).toLocaleString() + suffix;
+                setTimeout(updateCounter, 25);
+              } else {
+                counter.innerText = prefix + target.toLocaleString() + suffix;
+              }
+            };
+
+            updateCounter();
+            observer.unobserve(counter);
+          }
+        });
+      }, { threshold: 0.3 });
+
+      counters.forEach(counter => observer.observe(counter));
+    }
+
+    /**
+     * Responsive Tableau Embed Initializer
+     */
+    function initTableauEmbed(containerId) {
+      var divElement = document.getElementById(containerId);
+      if (!divElement) return;
+      var vizElement = divElement.getElementsByTagName('object')[0];
+      if (!vizElement) return;
+
+      vizElement.style.width = '100%';
+      var calculatedHeight = Math.max(680, Math.floor(divElement.offsetWidth * 0.72));
+      vizElement.style.height = calculatedHeight + 'px';
+
+      var scriptElement = document.createElement('script');
+      scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+      vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    }
+
+    window.addEventListener('load', function() {
+      initTableauEmbed('viz1793113342240'); // Dashboard 1
+      initTableauEmbed('viz1793112858055'); // Story 1
+    });
+  </script>
+</body>
+</html>
