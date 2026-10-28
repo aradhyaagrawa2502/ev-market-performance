@@ -3,6 +3,7 @@
 An end-to-end data analytics and web integration project designed to transform global Electric Vehicle (EV) market data into actionable strategic insights. This project embeds interactive Tableau visualizations into a custom web application, making complex vehicle specs, sales trajectories, and technical metrics accessible to industry analysts, manufacturers, and buyers.
 
 ## 🌐 Live Project Links
+- *Live Website:* https://agrawal.anmoflow.com/
 - *Project Demo Video:* https://cap.so/s/yfpsh1hf4k9v0r1
 - *Tableau Interactive Dashboard:*https://public.tableau.com/app/profile/aradhya.agrawal/viz/EVMARKET-DASHBOARD/Dashboard1?publish=yes
 - *Tableau Market Story:* https://public.tableau.com/app/profile/aradhya.agrawal/viz/EVMARKET-STORY/Story1?publish=yes
